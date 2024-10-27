@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: chat_server
+  r2dbc:
+    url: r2dbc:mysql://localhost:3306/your_database
+    username: root
+    password: qwer1234!
+
+logging:
+  level:
+    io.r2dbc: DEBUG
+    org.springframework: DEBUG
+    org.springframework.data.r2dbc: DEBUG
