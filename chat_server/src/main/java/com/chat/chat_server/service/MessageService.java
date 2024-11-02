@@ -23,7 +23,6 @@ public class MessageService {
   public Mono<MessageResponseDto> sendMessage(MessageRequestDto messageRequestDto) {
     return userRepository.findById(messageRequestDto.getUserId())
         .flatMap(user -> {
-          // 유저가 존재할 경우 메시지 생성
           Message message = new Message();
           message.setUserId(user.getId());
           message.setContent(messageRequestDto.getContent());
@@ -38,15 +37,17 @@ public class MessageService {
                     user.getNickname(),
                     savedMessage.getTimestamp()
                 );
-                sink.tryEmitNext(messageResponseDto);  // 새 메시지를 구독자에게 전달
+                sink.tryEmitNext(messageResponseDto);
                 return messageResponseDto;
               });
         })
-        .switchIfEmpty(Mono.error(new RuntimeException("User not found")));  // 유저가 없는 경우 예외 처리
+        .switchIfEmpty(Mono.error(new RuntimeException("User not found")));
   }
 
   public Flux<MessageResponseDto> streamMessages() {
-    return sink.asFlux();
+    return sink.asFlux().doOnCancel(() -> {
+      sink.asFlux().blockLast();
+    });
   }
 
   public Flux<MessageResponseDto> getAllMessages() {

@@ -8,6 +8,6 @@ spring:
 
 logging:
   level:
-    io.r2dbc: DEBUG
-    org.springframework: DEBUG
-    org.springframework.data.r2dbc: DEBUG
+    io.r2dbc: INFO
+    org.springframework: INFO
+    org.springframework.data.r2dbc: INFO

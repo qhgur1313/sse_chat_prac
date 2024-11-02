@@ -1,0 +1,91 @@
+/* 전체 채팅 화면 */
+.chat-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100vh;
+	max-width: 600px;
+	margin: 0 auto;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+/* 채팅 메시지 리스트 */
+.chat-messages {
+	flex-grow: 1;
+	padding: 10px;
+	overflow-y: auto;
+	background-color: #f9f9f9;
+}
+
+/* 채팅 메시지 버블 */
+.chat-message {
+	margin: 10px 0;
+	display: flex;
+	flex-direction: column;
+}
+
+.chat-message.sent {
+	align-items: flex-end;
+}
+
+.chat-message.received {
+	align-items: flex-start;
+}
+
+/* 메시지 버블 스타일 */
+.chat-bubble {
+	padding: 8px 12px;
+	border-radius: 16px;
+	max-width: 60%;
+	word-wrap: break-word;
+}
+
+.chat-bubble.sent {
+	background-color: #007bff;
+	color: white;
+}
+
+.chat-bubble.received {
+	background-color: #e9ecef;
+	color: black;
+}
+
+/* 닉네임 스타일 */
+.nickname {
+	font-size: 0.8rem;
+	margin-bottom: 4px;
+	color: gray;
+}
+
+/* 메시지 입력 필드 */
+.chat-input {
+	display: flex;
+	padding: 10px;
+	border-top: 1px solid #ccc;
+	background-color: #fff;
+}
+
+.chat-input input {
+	flex-grow: 1;
+	padding: 10px;
+	font-size: 1rem;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	margin-right: 8px;
+}
+
+.chat-input button {
+	padding: 10px 16px;
+	font-size: 1rem;
+	background-color: #007bff;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.chat-input button:hover {
+	background-color: #0056b3;
+}
