@@ -1,7 +1,8 @@
 package com.chat.chat_server.domain;
 
-import jakarta.persistence.Id;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,9 @@ public class Message {
 
   private String content;
   private LocalDateTime timestamp;
+  @Column("user_id")
   private Long userId;
+
+  @Column("chat_room_id")
   private Long chatRoomId;
 }

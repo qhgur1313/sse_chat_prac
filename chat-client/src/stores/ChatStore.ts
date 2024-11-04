@@ -1,7 +1,7 @@
 import axios from "axios";
 import { makeAutoObservable } from "mobx";
 
-interface Message {
+export interface Message {
 	id: number;
 	userId: number;
 	nickname: string;
@@ -10,13 +10,11 @@ interface Message {
 }
 
 class ChatStore {
-	messages: Message[] = [];
-	nickname: string = "";
-	messageInput: string = "";
-	userId: number | null = null;
+	private messages: Message[] = [];
+	private nickname: string = "";
+	private userId: number | null = null;
 
 	constructor() {
-		console.log("ChatStore created");
 		makeAutoObservable(this);
 	}
 
@@ -24,16 +22,33 @@ class ChatStore {
 		this.nickname = nickname;
 	}
 
-	setMessageInput(messageInput: string) {
-		this.messageInput = messageInput;
-	}
-
 	setUserId(userId: number) {
 		this.userId = userId;
 	}
 
+	getUserId() {
+		return this.userId;
+	}
+
 	addMessage(message: Message) {
     this.messages.push(message);
+	}
+
+	getMessages() {
+		return this.messages;
+	}
+
+	getNickname() {
+		return this.nickname;
+	}
+
+	async loadMessages() {
+		try {
+			const response = await axios.get("http://localhost:8080/api/messages");
+			this.messages = response.data;
+		} catch (error) {
+			console.error("Failed to load messages:", error);
+		}
 	}
 
 	connectToMessageStream() {
@@ -57,19 +72,18 @@ class ChatStore {
     return eventSource; 
 	}
 
-	async sendMessage() {
-		if (!this.nickname || !this.messageInput) {
+	async sendMessage(message: string) {
+		if (!this.nickname) {
 			return;
 		}
 
 		const response = await axios.post("http://localhost:8080/api/messages", {
 			userId: this.userId,
 			nickname: this.nickname,
-			content: this.messageInput,
+			content: message,
 		});
 
 		this.addMessage(response.data);
-		this.setMessageInput("");
 	}
 }
 

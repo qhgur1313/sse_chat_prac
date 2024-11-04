@@ -1,11 +1,15 @@
 import { observer } from "mobx-react-lite";
 import { chatStore } from "../stores/ChatStore"
 import "../styles/Chat.css"
+import { useState } from "react";
 
 const MessageInput: React.FC = observer(() => {
+  const [message, setMessage] = useState("");
+
 	const handleSend = () => {
-    if (chatStore.messageInput.trim() === "") return; // 빈 메시지 방지
-    chatStore.sendMessage();
+    if (message.trim() === "") return; // 빈 메시지 방지
+    chatStore.sendMessage(message);
+    setMessage("");
 	};
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
@@ -19,8 +23,8 @@ const MessageInput: React.FC = observer(() => {
 		<div className="chat-input">
       <input
         type="text"
-        value={chatStore.messageInput}
-        onChange={(e) => chatStore.setMessageInput(e.target.value)}
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
         onKeyDown={handleKeyPress}
         placeholder="Type a message..."
       />

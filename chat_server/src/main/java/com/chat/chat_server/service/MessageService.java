@@ -51,19 +51,6 @@ public class MessageService {
   }
 
   public Flux<MessageResponseDto> getAllMessages() {
-    return messageRepository.findAll()
-        .map(message -> {
-          MessageResponseDto messageResponseDto = new MessageResponseDto(
-              message.getId(),
-              message.getUserId(),
-              message.getContent(),
-              null,
-              message.getTimestamp()
-          );
-          userRepository.findById(message.getUserId())
-              .doOnNext(user -> messageResponseDto.setNickname(user.getNickname()))
-              .subscribe();
-          return messageResponseDto;
-        });
+    return messageRepository.findAllWithUserNickname();
   }
 }

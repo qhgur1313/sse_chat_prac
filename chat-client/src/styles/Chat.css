@@ -2,61 +2,72 @@
 .chat-container {
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
 	height: 100vh;
-	max-width: 600px;
-	margin: 0 auto;
-	border: 1px solid #ccc;
-	border-radius: 8px;
+	padding: 20px;
+	background-color: #e6ebf5;
 	overflow: hidden;
 }
 
 /* 채팅 메시지 리스트 */
 .chat-messages {
 	flex-grow: 1;
-	padding: 10px;
 	overflow-y: auto;
-	background-color: #f9f9f9;
+	padding-right: 10px;
 }
 
-/* 채팅 메시지 버블 */
-.chat-message {
-	margin: 10px 0;
+.message-group {
 	display: flex;
 	flex-direction: column;
 }
 
-.chat-message.sent {
+.my-message {
+	display: flex;
+	flex-direction: column;
 	align-items: flex-end;
 }
 
-.chat-message.received {
-	align-items: flex-start;
+.other-message {
+	display: flex;
+	flex-direction: column;
 }
 
-/* 메시지 버블 스타일 */
-.chat-bubble {
-	padding: 8px 12px;
-	border-radius: 16px;
-	max-width: 60%;
-	word-wrap: break-word;
+.message-timestamp {
+	display: flex;
 }
 
-.chat-bubble.sent {
-	background-color: #007bff;
-	color: white;
+.timestamp {
+	align-self: last baseline;
+	font-size: 0.8rem;
+	color: #666;
+	padding-left: 8px;
 }
 
-.chat-bubble.received {
-	background-color: #e9ecef;
-	color: black;
+.message-group-content {
+	display: flex;
+	flex-direction: column;
 }
 
-/* 닉네임 스타일 */
+.message-group .message {
+	max-width: 100%;
+	padding: 10px 15px;
+	border-radius: 10px;
+	background-color: #fff;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	margin: 5px 0;
+}
+
+.my-message .message {
+	background-color: #f4fc03;
+	justify-content: flex-end;
+	margin: 8px;
+}
+
+.other-message .message {
+	justify-content: flex-start;
+}
+
 .nickname {
 	font-size: 0.8rem;
-	margin-bottom: 4px;
-	color: gray;
 }
 
 /* 메시지 입력 필드 */
