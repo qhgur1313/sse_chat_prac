@@ -48,7 +48,7 @@
 }
 
 .message-group .message {
-	max-width: 100%;
+	width: fit-content;
 	padding: 10px 15px;
 	border-radius: 10px;
 	background-color: #fff;
@@ -58,12 +58,16 @@
 
 .my-message .message {
 	background-color: #f4fc03;
-	justify-content: flex-end;
+	align-self: flex-end;
 	margin: 8px;
 }
 
 .other-message .message {
 	justify-content: flex-start;
+}
+
+.my-message .message-content {
+	text-align: right;
 }
 
 .nickname {

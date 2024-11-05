@@ -20,17 +20,6 @@ const Chat: React.FC = observer(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages.length]);
 
-  // Helper function to format timestamp
-  const formatTimestamp = (timestamp: string) => {
-    const date = new Date(timestamp);
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const ampm = hours >= 12 ? "PM" : "AM";
-    const formattedHours = hours % 12 || 12;
-    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-    return `${formattedHours}:${formattedMinutes} ${ampm}`;
-  };
-
   const messageGroups: Message[][] = [];
   let currentGroup: Message[] = [];
   messages.map(msg => {
@@ -46,6 +35,9 @@ const Chat: React.FC = observer(() => {
       }
     }
   });
+  if (currentGroup.length > 0) {
+    messageGroups.push(currentGroup);
+  }
 
   return (
     <div className="chat-container">
@@ -58,7 +50,7 @@ const Chat: React.FC = observer(() => {
                 <div className={`${myMessage ? "my-message" : "other-message"}`}>
                   {!myMessage ? <div className="nickname">{group[0].nickname}</div> : null}
                   <div className="message-timestamp">
-                    {myMessage ? <div className="timestamp">{formatTimestamp(group[0].timestamp)}</div> : null}
+                    {myMessage ? <div className="timestamp">{(group[0].timestamp)}</div> : null}
                   <div className="message-group-content">
                     {
                       group.map(msg => (
@@ -68,7 +60,7 @@ const Chat: React.FC = observer(() => {
                       ))
                     }
                   </div>
-                    {!myMessage ? <div className="timestamp">{formatTimestamp(group[0].timestamp)}</div> : null}
+                    {!myMessage ? <div className="timestamp">{(group[0].timestamp)}</div> : null}
                   </div>
                 </div>
               </div>

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { makeAutoObservable } from "mobx";
+import { formatTimestamp } from "../util/Util";
 
 export interface Message {
 	id: number;
@@ -31,6 +32,7 @@ class ChatStore {
 	}
 
 	addMessage(message: Message) {
+		message.timestamp = formatTimestamp(message.timestamp);
     this.messages.push(message);
 	}
 
@@ -45,7 +47,11 @@ class ChatStore {
 	async loadMessages() {
 		try {
 			const response = await axios.get("http://localhost:8080/api/messages");
-			this.messages = response.data;
+			const messages: Message[] = response.data;
+			messages.forEach((message) => {
+				message.timestamp = formatTimestamp(message.timestamp);
+			});
+			this.messages = messages;
 		} catch (error) {
 			console.error("Failed to load messages:", error);
 		}
