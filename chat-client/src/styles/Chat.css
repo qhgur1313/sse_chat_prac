@@ -84,23 +84,35 @@
 
 .chat-input input {
 	flex-grow: 1;
-	padding: 10px;
+	padding: 8px;
 	font-size: 1rem;
-	border: 1px solid #ccc;
-	border-radius: 4px;
+	border: 0px;
 	margin-right: 8px;
 }
 
-.chat-input button {
+.chat-input input:focus {
+  outline: none;
+}
+
+.chat-input .button-inactive {
 	padding: 10px 16px;
 	font-size: 1rem;
-	background-color: #007bff;
-	color: white;
+	background-color: #e0e0e0;
+	color: #b9b9b9;
 	border: none;
 	border-radius: 4px;
 	cursor: pointer;
 }
 
-.chat-input button:hover {
-	background-color: #0056b3;
+.chat-input .button-active {
+	padding: 10px 16px;
+	font-size: 1rem;
+	background-color: #f4fc03;;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.button-active:hover {
+	background-color: #ffea00;
 }

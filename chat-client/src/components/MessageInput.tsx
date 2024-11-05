@@ -28,7 +28,7 @@ const MessageInput: React.FC = observer(() => {
         onKeyDown={handleKeyPress}
         placeholder="Type a message..."
       />
-      <button onClick={handleSend}>Send</button>
+      <button className={`${message.trim() === ""?"button-inactive":"button-active"}`} onClick={handleSend}>Send</button>
     </div>
 	)
 })
