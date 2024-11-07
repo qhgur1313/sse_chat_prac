@@ -46,7 +46,11 @@ class ChatStore {
 
 	async loadMessages() {
 		try {
-			const response = await axios.get("http://localhost:8080/api/messages");
+			const response = await axios.get("http://localhost:8080/api/messages", {
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+				}
+			});
 			const messages: Message[] = response.data;
 			messages.forEach((message) => {
 				message.timestamp = formatTimestamp(message.timestamp);
@@ -58,11 +62,10 @@ class ChatStore {
 	}
 
 	connectToMessageStream() {
-    const eventSource = new EventSource("http://localhost:8080/api/messages/stream");
+    const eventSource = new EventSource(`http://localhost:8080/api/messages/stream?token=${localStorage.getItem("jwtToken")}`);
 
     eventSource.onmessage = (event) => {
       const newMessage: Message = JSON.parse(event.data);
-
 			if (newMessage.userId === this.userId) {
 				return;
 			}
@@ -82,11 +85,14 @@ class ChatStore {
 		if (!this.nickname) {
 			return;
 		}
-
 		const response = await axios.post("http://localhost:8080/api/messages", {
 			userId: this.userId,
 			nickname: this.nickname,
 			content: message,
+		}, {
+			headers: {
+				Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+			}
 		});
 
 		this.addMessage(response.data);

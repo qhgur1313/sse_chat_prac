@@ -30,3 +30,24 @@
 .landing-container button:hover {
 	background-color: #0056b3;
 }
+
+.toggle-link {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.toggle-link p {
+  font-size: 14px;
+  color: #555; /* 기본 텍스트 색상 */
+}
+
+.toggle-link span {
+  color: #007bff; /* 링크 색상 */
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.toggle-link span:hover {
+  color: #0056b3; /* 호버 시 색상 */
+}

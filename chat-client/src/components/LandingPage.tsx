@@ -6,22 +6,32 @@ import { useNavigate } from "react-router-dom";
 
 const LandingPage: React.FC = () => {
 	const [nickname, setNickname] = useState("");
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [isSignUp, setIsSignUp] = useState(false);
 	const chatStore = useChatStore();
 	const navigate = useNavigate();
 	
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		if (!nickname) {
-			return;
-		}
+		const url = isSignUp ? "http://localhost:8080/api/auth/signup" : "http://localhost:8080/api/auth/login";
 		
 		try {
-			const response = await axios.post("http://localhost:8080/api/users", {
-				nickname,
+			const response = await axios.post(url, {
+				email,
+				nickname: isSignUp ? nickname : null,
+				password,
 			});
 
-			chatStore.setUserId(response.data.id);
-			chatStore.setNickname(nickname);
+			if (isSignUp) {
+				chatStore.setUserId(response.data.id);
+				chatStore.setNickname(nickname);
+			} else {
+				const { token, id, nickname } = response.data;
+				localStorage.setItem("jwtToken", token);
+				chatStore.setUserId(id);
+				chatStore.setNickname(nickname);
+			}
 
 			navigate("/chat");
 		} catch (error) {
@@ -31,16 +41,42 @@ const LandingPage: React.FC = () => {
 
 	return (
 		<div className="landing-container">
-      <h2>Enter your nickname to join the chat</h2>
+      <h2>{isSignUp ? "Sign Up" : "Log In"}</h2>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={nickname}
-          onChange={(e) => setNickname(e.target.value)}
-          placeholder="Enter your nickname"
-        />
-        <button type="submit">Join Chat</button>
+				<input 
+					type="email"
+					value={email}
+					onChange={(e) => setEmail(e.target.value)}
+					placeholder="Enter your email"
+				/>
+				{isSignUp && 
+				<input
+					type="text"
+					value={nickname}
+					onChange={(e) => setNickname(e.target.value)}
+					placeholder="Enter your nickname"
+				/>}
+				<input
+					type="password"
+					value={password}
+					onChange={(e) => setPassword(e.target.value)}
+					placeholder="Enter your password"
+				/>
+				<button type="submit">{isSignUp ? "Sign Up" : "Log In"}</button>
       </form>
+			<div className="toggle-link">
+				{isSignUp ? (
+					<p>
+						Already have an account?{" "}
+						<span onClick={() => setIsSignUp(false)}>Log In</span>
+					</p>
+				) : (
+					<p>
+						Don't have an account?{" "}
+						<span onClick={() => setIsSignUp(true)}>Sign Up</span>
+					</p>
+				)}
+			</div>
     </div>
 	)
 }
